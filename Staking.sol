@@ -79,8 +79,7 @@ contract Staking is IStaking {
             amount += calculateReward(
                 _stake,
                 currentTerm - _stake.lastClaimedTerm
-            ); //calcula el porcentaje de los rewards en base a la duracion establecida
-            //lo multiplica por la cantidad de terms cimplidos que no hayan sido reclamados
+            );
         }
 
         delete users[msg.sender];
@@ -99,7 +98,6 @@ contract Staking is IStaking {
         Stake memory _stake,
         uint _termsToClaim
     ) internal pure returns (uint256 reward) {
-        // Calculate reward based on the term duration
         reward = (_stake.amount * (_stake.duration * 25)) / 100;
         reward = reward * _termsToClaim;
     }
@@ -113,7 +111,7 @@ contract Staking is IStaking {
         Stake memory _stake
     ) internal view returns (uint256 term) {
         uint stakedDays = (block.timestamp - _stake.startDate) / 1 days;
-        term = stakedDays / (_stake.duration * 365 days);
+        term = stakedDays / (_stake.duration * 365);
     }
 
     /**
